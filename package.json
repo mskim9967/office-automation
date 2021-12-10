@@ -1,0 +1,74 @@
+{
+  "name": "gfi-qc",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@craco/craco": "^6.4.2",
+    "@emotion/react": "^11.7.0",
+    "@emotion/styled": "^11.6.0",
+    "@material-ui/core": "^4.12.3",
+    "@material-ui/icons": "^4.11.2",
+    "@mui-treasury/styles": "^1.13.1",
+    "@mui/core": "^5.0.0-alpha.54",
+    "@mui/material": "^5.2.3",
+    "@mui/styles": "^5.2.3",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "electron-is-dev": "^2.0.0",
+    "exceljs": "^4.3.0",
+    "puppeteer-core": "^12.0.1",
+    "puppeteer-in-electron": "^3.0.5",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "typescript": "^4.1.2",
+    "web-vitals": "^1.0.1"
+  },
+  "main": "public/electron.js",
+  "homepage": "./",
+  "build": {
+    "productName": "electron-test-app",
+    "asar": true,
+    "appId": "org.mskim.electron-test-app"
+  },
+  "scripts": {
+    "react-start": "craco start",
+    "react-build": "craco build",
+    "react-test": "craco test",
+    "react-eject": "craco eject",
+    "start": "concurrently \"cross-env NODE_ENV=development BROWSER=none yarn react-start\" \"wait-on http://localhost:3000 && electron .\"",
+    "build-mac": "yarn react-build && electron-builder",
+    "build-win": "yarn react-build && electron-builder --win --x64",
+    "release": "yarn react-build && electron-builder --publish=always"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "concurrently": "^6.4.0",
+    "cross-env": "^7.0.3",
+    "electron": "16.0.4",
+    "electron-builder": "^22.10.5",
+    "wait-on": "^6.0.0"
+  }
+}
