@@ -9,23 +9,34 @@ const handleRedirect = (e, url) => {
   }
 };
 
-const inputUrl = null;
+let dataDirPath = null;
 
-ipcMain.on('setInputDirPath', async (event, data) => {
+ipcMain.on('setDataDirPath', async (event) => {
   try {
-    const inputDirPath = dialog.showOpenDialogSync({ properties: ['openDirectory'] });
-    event.sender.send('trigInputDirPath', inputDirPath);
+    dataDirPath = dialog.showOpenDialogSync({ properties: ['openDirectory'] })[0];
+    let retailers = await controller.getRetailers(dataDirPath);
+    event.sender.send('dataDirPathSetted', { dataDirPath, retailers });
   } catch (e) {
-    console.log(e);
+    dialog.showMessageBox(null, { type: 'error', title: 'Error', message: 'path is incorrent' });
+    console.error(e);
   }
 });
 
-ipcMain.on('setOutputDirPath', async (event, data) => {
+ipcMain.on('selectGfiFile', async (event, client) => {
   try {
-    const outputDirPath = dialog.showOpenDialogSync({ properties: ['openDirectory'] });
-    event.sender.send('trigOutputDirPath', outputDirPath);
+    let retailerGfiFiles = await controller.getGfiFilePaths(dataDirPath, client);
+    event.sender.send('gfiFileSelected', retailerGfiFiles);
   } catch (e) {
-    console.log(e);
+    console.error(e);
+  }
+});
+
+ipcMain.on('mergeGfiFiles', async (event, client) => {
+  try {
+    let mergedFilePath = await controller.mergeGfiFile(dataDirPath, client);
+    //console.log(client.selectedGfiFiles);
+  } catch (e) {
+    console.error(e);
   }
 });
 
